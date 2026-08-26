@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AutoService.API/AutoService.API.csproj" />
+    <Project Path="src/AutoService.Application/AutoService.Application.csproj" />
+    <Project Path="src/AutoService.Domain/AutoService.Domain.csproj" />
+    <Project Path="src/AutoService.Infrastructure/AutoService.Infrastructure.csproj" />
+  </Folder>
+</Solution>
