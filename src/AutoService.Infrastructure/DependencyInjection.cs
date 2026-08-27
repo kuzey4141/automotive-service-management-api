@@ -1,4 +1,7 @@
+using AutoService.Application.Abstractions.Persistence;
+using AutoService.Application.Customers;
 using AutoService.Infrastructure.Persistence;
+using AutoService.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +15,9 @@ public static class DependencyInjection
     {
         services.AddDbContext<AutoServiceDbContext>(options =>
             options.UseNpgsql(connectionString));
+
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ICustomerService, CustomerService>();
 
         return services;
     }
