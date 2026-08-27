@@ -1,5 +1,6 @@
 using AutoService.API.Contracts.Customers;
 using AutoService.Application.Customers;
+using AutoService.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoService.API.Controllers;
@@ -13,6 +14,34 @@ public sealed class CustomersController : ControllerBase
     public CustomersController(ICustomerService customerService)
     {
         _customerService = customerService;
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(IReadOnlyList<CustomerResponse>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IReadOnlyList<CustomerResponse>>> GetAll(
+        CancellationToken cancellationToken)
+    {
+        var customers = await _customerService.GetAllAsync(cancellationToken);
+        var response = customers.Select(ToResponse).ToList();
+
+        return Ok(response);
+    }
+
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(CustomerResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<CustomerResponse>> GetById(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        var customer = await _customerService.GetByIdAsync(id, cancellationToken);
+
+        if (customer is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(ToResponse(customer));
     }
 
     [HttpPost]
@@ -29,7 +58,56 @@ public sealed class CustomersController : ControllerBase
             request.Email,
             cancellationToken);
 
-        var response = new CustomerResponse
+        var response = ToResponse(customer);
+
+        return CreatedAtAction(nameof(GetById), new { id = customer.Id }, response);
+    }
+
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(typeof(CustomerResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<CustomerResponse>> Update(
+        Guid id,
+        UpdateCustomerRequest request,
+        CancellationToken cancellationToken)
+    {
+        var customer = await _customerService.UpdateAsync(
+            id,
+            request.FirstName,
+            request.LastName,
+            request.PhoneNumber,
+            request.Email,
+            cancellationToken);
+
+        if (customer is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(ToResponse(customer));
+    }
+
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        var deleted = await _customerService.DeleteAsync(id, cancellationToken);
+
+        if (!deleted)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
+    private static CustomerResponse ToResponse(Customer customer)
+    {
+        return new CustomerResponse
         {
             Id = customer.Id,
             FirstName = customer.FirstName,
@@ -38,7 +116,5 @@ public sealed class CustomersController : ControllerBase
             Email = customer.Email,
             CreatedAtUtc = customer.CreatedAtUtc
         };
-
-        return Created($"/api/customers/{customer.Id}", response);
     }
 }

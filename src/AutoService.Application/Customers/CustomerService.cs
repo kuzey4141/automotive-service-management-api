@@ -12,6 +12,19 @@ public sealed class CustomerService : ICustomerService
         _customerRepository = customerRepository;
     }
 
+    public Task<IReadOnlyList<Customer>> GetAllAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return _customerRepository.GetAllAsync(cancellationToken);
+    }
+
+    public Task<Customer?> GetByIdAsync(
+        Guid id,
+        CancellationToken cancellationToken = default)
+    {
+        return _customerRepository.GetByIdAsync(id, cancellationToken);
+    }
+
     public async Task<Customer> CreateAsync(
         string firstName,
         string lastName,
@@ -31,5 +44,46 @@ public sealed class CustomerService : ICustomerService
         await _customerRepository.AddAsync(customer, cancellationToken);
 
         return customer;
+    }
+
+    public async Task<Customer?> UpdateAsync(
+        Guid id,
+        string firstName,
+        string lastName,
+        string phoneNumber,
+        string? email,
+        CancellationToken cancellationToken = default)
+    {
+        var customer = await _customerRepository.GetByIdAsync(id, cancellationToken);
+
+        if (customer is null)
+        {
+            return null;
+        }
+
+        customer.FirstName = firstName.Trim();
+        customer.LastName = lastName.Trim();
+        customer.PhoneNumber = phoneNumber.Trim();
+        customer.Email = string.IsNullOrWhiteSpace(email) ? null : email.Trim();
+
+        await _customerRepository.UpdateAsync(customer, cancellationToken);
+
+        return customer;
+    }
+
+    public async Task<bool> DeleteAsync(
+        Guid id,
+        CancellationToken cancellationToken = default)
+    {
+        var customer = await _customerRepository.GetByIdAsync(id, cancellationToken);
+
+        if (customer is null)
+        {
+            return false;
+        }
+
+        await _customerRepository.DeleteAsync(customer, cancellationToken);
+
+        return true;
     }
 }
