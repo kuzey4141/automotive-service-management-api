@@ -8,4 +8,5 @@ public class Customer
     public string PhoneNumber { get; set; } = string.Empty;
     public string? Email { get; set; }
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+    public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
 }

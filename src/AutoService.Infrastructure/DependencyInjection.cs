@@ -1,5 +1,6 @@
 using AutoService.Application.Abstractions.Persistence;
 using AutoService.Application.Customers;
+using AutoService.Application.Vehicles;
 using AutoService.Infrastructure.Persistence;
 using AutoService.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,8 @@ public static class DependencyInjection
 
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<IVehicleRepository, VehicleRepository>();
+        services.AddScoped<IVehicleService, VehicleService>();
 
         return services;
     }
