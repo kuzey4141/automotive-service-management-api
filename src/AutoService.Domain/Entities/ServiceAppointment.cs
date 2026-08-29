@@ -9,4 +9,5 @@ public class ServiceAppointment
     public AppointmentStatus Status { get; set; } = AppointmentStatus.Pending;
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
     public Vehicle Vehicle { get; set; } = null!;
+    public ServiceRecord? ServiceRecord { get; set; }
 }
