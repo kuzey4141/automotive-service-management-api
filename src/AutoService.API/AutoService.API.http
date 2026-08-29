@@ -1,6 +1,126 @@
-@AutoService.API_HostAddress = http://localhost:5169
+@host = http://localhost:5080
+@token = paste-access-token-here
+@customerId = paste-customer-id-here
+@vehicleId = paste-vehicle-id-here
+@appointmentId = paste-appointment-id-here
+@serviceRecordId = paste-service-record-id-here
+@sparePartId = paste-spare-part-id-here
 
-GET {{AutoService.API_HostAddress}}/weatherforecast/
-Accept: application/json
+### Health
+GET {{host}}/health
 
-###
+### One-time initial admin setup
+POST {{host}}/api/auth/setup-admin
+Content-Type: application/json
+
+{
+  "fullName": "System Admin",
+  "email": "admin@example.com",
+  "password": "ChangeThisPassword123!"
+}
+
+### Login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "ChangeThisPassword123!"
+}
+
+### Create customer
+POST {{host}}/api/customers
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "firstName": "Kuzey",
+  "lastName": "Deveci",
+  "phoneNumber": "+905464344116",
+  "email": "customer@example.com"
+}
+
+### List customers
+GET {{host}}/api/customers
+Authorization: Bearer {{token}}
+
+### Create vehicle
+POST {{host}}/api/vehicles
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "customerId": "{{customerId}}",
+  "licensePlate": "41 ABC 123",
+  "brand": "Toyota",
+  "model": "Corolla",
+  "modelYear": 2022,
+  "kilometer": 45000
+}
+
+### Create future appointment
+POST {{host}}/api/appointments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "vehicleId": "{{vehicleId}}",
+  "scheduledAtUtc": "2026-12-10T10:00:00Z",
+  "description": "Periodic maintenance"
+}
+
+### Confirm appointment
+PUT {{host}}/api/appointments/{{appointmentId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "scheduledAtUtc": "2026-12-10T10:00:00Z",
+  "description": "Periodic maintenance",
+  "status": "Confirmed"
+}
+
+### Create service record
+POST {{host}}/api/service-records
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "vehicleId": "{{vehicleId}}",
+  "appointmentId": "{{appointmentId}}",
+  "type": "Maintenance",
+  "odometer": 45200,
+  "description": "Oil and filter replacement",
+  "laborCost": 750,
+  "completedAtUtc": "2026-08-29T10:00:00Z"
+}
+
+### Create spare part
+POST {{host}}/api/spare-parts
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "sku": "OIL-FILTER-001",
+  "name": "Oil Filter",
+  "unitPrice": 350,
+  "initialStock": 20,
+  "minimumStockLevel": 5
+}
+
+### Use spare part in service record
+POST {{host}}/api/service-records/{{serviceRecordId}}/parts
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "sparePartId": "{{sparePartId}}",
+  "quantity": 1
+}
+
+### Low-stock report
+GET {{host}}/api/spare-parts/low-stock
+Authorization: Bearer {{token}}
+
+### OpenAPI document (Development environment)
+GET {{host}}/openapi/v1.json

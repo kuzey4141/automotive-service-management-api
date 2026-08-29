@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+.git/
+.gitignore
+.env
+.vs/
+.vscode/
+TestResults/
+coverage/
+*.user
+*.suo
