@@ -1,10 +1,12 @@
 using AutoService.API.Contracts.Vehicles;
 using AutoService.Application.Vehicles;
 using AutoService.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoService.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/vehicles")]
 public sealed class VehiclesController : ControllerBase

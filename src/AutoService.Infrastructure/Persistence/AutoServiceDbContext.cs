@@ -16,6 +16,7 @@ public class AutoServiceDbContext : DbContext
     public DbSet<ServiceRecord> ServiceRecords => Set<ServiceRecord>();
     public DbSet<SparePart> SpareParts => Set<SparePart>();
     public DbSet<ServiceRecordPart> ServiceRecordParts => Set<ServiceRecordPart>();
+    public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -23,6 +24,10 @@ public class AutoServiceDbContext : DbContext
 
         modelBuilder.Entity<SparePart>()
             .HasIndex(sparePart => sparePart.Sku)
+            .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .HasIndex(user => user.Email)
             .IsUnique();
 
         modelBuilder.Entity<SparePart>()

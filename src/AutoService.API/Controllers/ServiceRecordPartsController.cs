@@ -1,10 +1,12 @@
 using AutoService.API.Contracts.Inventory;
 using AutoService.Application.Inventory;
 using AutoService.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoService.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/service-records/{serviceRecordId:guid}/parts")]
 public sealed class ServiceRecordPartsController : ControllerBase

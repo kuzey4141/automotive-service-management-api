@@ -1,10 +1,12 @@
 using AutoService.API.Contracts.ServiceRecords;
 using AutoService.Application.ServiceRecords;
 using AutoService.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoService.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/service-records")]
 public sealed class ServiceRecordsController : ControllerBase

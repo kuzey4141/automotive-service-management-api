@@ -1,10 +1,12 @@
 using AutoService.API.Contracts.Appointments;
 using AutoService.Application.Appointments;
 using AutoService.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoService.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/appointments")]
 public sealed class ServiceAppointmentsController : ControllerBase

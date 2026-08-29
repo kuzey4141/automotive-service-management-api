@@ -1,10 +1,12 @@
 using AutoService.API.Contracts.Inventory;
 using AutoService.Application.Inventory;
 using AutoService.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoService.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/spare-parts")]
 public sealed class SparePartsController : ControllerBase
@@ -103,6 +105,7 @@ public sealed class SparePartsController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = nameof(UserRole.Admin))]
     public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
     {
         var deleted = await _inventoryService.DeleteAsync(id, cancellationToken);

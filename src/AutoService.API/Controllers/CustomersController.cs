@@ -1,10 +1,12 @@
 using AutoService.API.Contracts.Customers;
 using AutoService.Application.Customers;
 using AutoService.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoService.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/customers")]
 public sealed class CustomersController : ControllerBase
