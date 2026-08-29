@@ -5,4 +5,8 @@
     <Project Path="src/AutoService.Domain/AutoService.Domain.csproj" />
     <Project Path="src/AutoService.Infrastructure/AutoService.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AutoService.API.IntegrationTests/AutoService.API.IntegrationTests.csproj" />
+    <Project Path="tests/AutoService.Application.Tests/AutoService.Application.Tests.csproj" />
+  </Folder>
 </Solution>
