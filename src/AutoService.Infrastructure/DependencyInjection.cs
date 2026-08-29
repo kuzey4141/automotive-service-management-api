@@ -1,6 +1,7 @@
 using AutoService.Application.Abstractions.Persistence;
 using AutoService.Application.Appointments;
 using AutoService.Application.Customers;
+using AutoService.Application.Inventory;
 using AutoService.Application.ServiceRecords;
 using AutoService.Application.Vehicles;
 using AutoService.Infrastructure.Persistence;
@@ -27,6 +28,8 @@ public static class DependencyInjection
         services.AddScoped<IServiceAppointmentService, ServiceAppointmentService>();
         services.AddScoped<IServiceRecordRepository, ServiceRecordRepository>();
         services.AddScoped<IServiceRecordService, ServiceRecordService>();
+        services.AddScoped<IInventoryRepository, InventoryRepository>();
+        services.AddScoped<IInventoryService, InventoryService>();
 
         return services;
     }

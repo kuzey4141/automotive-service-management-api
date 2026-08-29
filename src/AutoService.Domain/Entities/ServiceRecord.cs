@@ -13,4 +13,5 @@ public class ServiceRecord
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
     public Vehicle Vehicle { get; set; } = null!;
     public ServiceAppointment? Appointment { get; set; }
+    public ICollection<ServiceRecordPart> Parts { get; set; } = new List<ServiceRecordPart>();
 }
