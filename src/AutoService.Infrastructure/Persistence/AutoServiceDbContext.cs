@@ -12,4 +12,5 @@ public class AutoServiceDbContext : DbContext
 
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Vehicle> Vehicles => Set<Vehicle>();
+    public DbSet<ServiceAppointment> ServiceAppointments => Set<ServiceAppointment>();
 }

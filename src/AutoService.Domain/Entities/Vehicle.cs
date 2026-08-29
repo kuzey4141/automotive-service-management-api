@@ -11,4 +11,5 @@ public class Vehicle
     public int Kilometer { get; set; }
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
     public Customer Customer { get; set; } = null!;
+    public ICollection<ServiceAppointment> Appointments { get; set; } = new List<ServiceAppointment>();
 }
