@@ -19,5 +19,6 @@ public sealed class RegisterUserRequest
     [MaxLength(100)]
     public string Password { get; set; } = string.Empty;
 
+    [EnumDataType(typeof(UserRole))]
     public UserRole Role { get; set; } = UserRole.ServiceAdvisor;
 }
